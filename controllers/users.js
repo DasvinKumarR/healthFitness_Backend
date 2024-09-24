@@ -21,7 +21,7 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body;
     try {
         const token = generateToken();
-        const url = `http://localhost:5000/users/activate/${token}`
+        const url = `https://healthfitness-backend.onrender.com/users/activate/${token}`
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = await User.create({ name, email, password: hashedPassword });
         await newUser.updateOne({$set: {token}});
@@ -101,7 +101,7 @@ export const forgotPassword = async (req, res) => {
         user.resetTokenExpiration = Date.now() + 3600000; // 1 hour
         await user.save();
 
-        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
+        const resetUrl = `https://healthfitnessft.netlify.app/reset-password/${resetToken}`;
 
         await transporter.sendMail({
             to: email,
